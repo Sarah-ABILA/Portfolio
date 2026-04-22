@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarah Abila — IA Product Builder & Développeuse Full-Stack</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --violet: #5B4FCF;
+    --violet-dark: #3D35A0;
+    --violet-light: #EEF0FF;
+    --violet-mid: #8B7FE8;
+    --cream: #FAFAF7;
+    --dark: #1A1730;
+    --text: #2D2A45;
+    --muted: #7B7896;
+    --accent: #FF6B6B;
+    --green: #2ECC71;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(91,79,207,0.1);
+  }
+
+  nav .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    color: var(--violet);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--violet); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(91,79,207,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text {
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--violet-light);
+    color: var(--violet);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--violet);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--violet);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--violet-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(91,79,207,0.3);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--violet);
+    border: 1.5px solid var(--violet);
+  }
+
+  .btn-outline:hover {
+    background: var(--violet-light);
+    transform: translateY(-1px);
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(91,79,207,0.08);
+    border: 1px solid rgba(91,79,207,0.06);
+  }
+
+  .stat-card.accent {
+    background: var(--violet);
+    color: white;
+    grid-column: span 2;
+  }
+
+  .stat-number {
+    font-family: 'Fraunces', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-card.accent .stat-number { color: white; }
+  .stat-number:not(.accent .stat-number) { color: var(--violet); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .stat-card.accent .stat-label { color: rgba(255,255,255,0.8); }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6rem 4rem;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  /* ── PROFIL ── */
+  .profil {
+    background: var(--dark);
+    color: white;
+  }
+
+  .profil-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .profil h2 { color: white; }
+  .profil .section-label { color: var(--violet-mid); }
+
+  .profil-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 1.5rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    background: rgba(91,79,207,0.3);
+    color: var(--violet-mid);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(91,79,207,0.3);
+  }
+
+  .formation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .formation-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .formation-item h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.2rem;
+  }
+
+  .formation-item p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .formation-badge {
+    background: var(--violet);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── PROJETS ── */
+  .projets { background: var(--cream); }
+
+  .projets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .projet-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(91,79,207,0.08);
+    box-shadow: 0 4px 20px rgba(91,79,207,0.06);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .projet-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(91,79,207,0.15);
+    border-color: rgba(91,79,207,0.2);
+  }
+
+  .projet-card.featured {
+    grid-column: span 2;
+    background: var(--violet);
+    color: white;
+    border-color: transparent;
+  }
+
+  .projet-icon {
+    font-size: 2rem;
+  }
+
+  .projet-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    color: var(--dark);
+  }
+
+  .projet-card.featured h3 { color: white; }
+
+  .projet-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .projet-card.featured .projet-desc { color: rgba(255,255,255,0.8); }
+
+  .projet-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .stack-tag {
+    background: var(--violet-light);
+    color: var(--violet);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  .projet-card.featured .stack-tag {
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+
+  .projet-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .projet-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--violet);
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border: 1.5px solid rgba(91,79,207,0.3);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .projet-link:hover {
+    background: var(--violet-light);
+  }
+
+  .projet-card.featured .projet-link {
+    color: white;
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  .projet-card.featured .projet-link:hover {
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* ── COMPÉTENCES ── */
+  .competences { background: white; }
+
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .comp-card {
+    border: 1px solid rgba(91,79,207,0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.2s;
+  }
+
+  .comp-card:hover {
+    border-color: var(--violet);
+    box-shadow: 0 8px 24px rgba(91,79,207,0.1);
+  }
+
+  .comp-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .comp-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .comp-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .comp-item {
+    background: var(--violet-light);
+    color: var(--violet-dark);
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+
+  /* ── EXPÉRIENCES ── */
+  .experiences { background: var(--cream); }
+
+  .exp-list {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 800px;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(91,79,207,0.1);
+    position: relative;
+  }
+
+  .exp-date {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 500;
+    padding-top: 0.2rem;
+  }
+
+  .exp-content h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--dark);
+    margin-bottom: 0.2rem;
+  }
+
+  .exp-content .company {
+    font-size: 0.85rem;
+    color: var(--violet);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-content p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--dark);
+    text-align: center;
+    padding: 8rem 4rem;
+  }
+
+  .contact h2 { color: white; }
+  .contact .section-label { color: var(--violet-mid); }
+
+  .contact-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 1rem auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111022;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .profil-grid { grid-template-columns: 1fr; }
+    .projets-grid { grid-template-columns: 1fr; }
+    .projet-card.featured { grid-column: span 1; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .contact { padding: 5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Sarah Abila</a>
+  <ul>
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#experiences">Parcours</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">Disponible immédiatement · Full Remote</div>
+    <h1>IA Product Builder<br>&amp; <em>Développeuse</em><br>Full-Stack</h1>
+    <p class="hero-sub">
+      Certifiée RNCP Niveau 6 (Le Wagon, Batch #2208). Je conçois des outils IA opérationnels et des applications web robustes, avec 30 ans de vision métier en prime.
+    </p>
+    <div class="hero-links">
+      <a href="#projets" class="btn btn-primary">Voir mes projets</a>
+      <a href="https://linkedin.com/in/sarah-abila" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="https://github.com/Sarah-ABILA" target="_blank" class="btn btn-outline">GitHub</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="stat-card">
+      <div class="stat-number">7</div>
+      <div class="stat-label">Projets déployés</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">30</div>
+      <div class="stat-label">Ans de gestion</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="stat-number">RNCP 6</div>
+      <div class="stat-label">Concepteur·rice Développeur·se d'Applications — Le Wagon Mars 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFIL -->
+<section class="profil" id="profil">
+  <div class="profil-grid">
+    <div class="fade-in">
+      <span class="section-label">À propos</span>
+      <h2>Un profil hybride,<br>rare et concret</h2>
+      <p class="profil-text">
+        Après 30 ans d'entrepreneuriat et de gestion d'entreprise, j'ai choisi de me reconvertir dans la tech. Pas par hasard : pour bâtir des outils intelligents qui résolvent de vrais problèmes terrain.
+      </p>
+      <p class="profil-text">
+        Certifiée RNCP Niveau 6 au bootcamp Le Wagon (Marseille), je conçois et déploie des applications full-stack et des workflows IA avec n8n, Anthropic Claude, Gemini et Supabase.
+      </p>
+      <div class="tags">
+        <span class="tag">Ruby on Rails</span>
+        <span class="tag">React</span>
+        <span class="tag">n8n</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">Gemini</span>
+        <span class="tag">Airtable</span>
+        <span class="tag">Softr</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Supabase</span>
+        <span class="tag">RAG pipelines</span>
+      </div>
+    </div>
+    <div class="formation-list fade-in">
+      <div class="formation-item">
+        <div>
+          <h4>AI Product Builder</h4>
+          <p>Le Wagon · Spécialisation</p>
+        </div>
+        <span class="formation-badge">Avr 2026</span>
+      </div>
+      <div class="formation-item">
+        <div>
+          <h4>Développement Web Full-Stack</h4>
+          <p>Le Wagon Batch #2208 · Marseille</p>
+        </div>
+        <span class="formation-badge">Janv–Mars 2026</span>
+      </div>
+      <div class="formation-item">
+        <div>
+          <h4>RNCP Niveau 6</h4>
+          <p>Concepteur·rice Développeur·se d'Applications</p>
+        </div>
+        <span class="formation-badge">Mars 2026 ✓</span>
+      </div>
+      <div class="formation-item">
+        <div>
+          <h4>DEUG Histoire</h4>
+          <p>Option Histoire &amp; Géographie</p>
+        </div>
+        <span class="formation-badge">1993</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section class="projets" id="projets">
+  <span class="section-label">Réalisations</span>
+  <h2>Projets déployés<br>en production</h2>
+  <div class="projets-grid">
+
+    <!-- MediCheck FEATURED -->
+    <div class="projet-card featured fade-in">
+      <div class="projet-icon">🩺</div>
+      <h3>MediCheck</h3>
+      <p class="projet-desc">Analyseur d'interactions médicamenteuses alimenté par IA. L'utilisateur entre ses médicaments, un workflow n8n interroge Gemini 2.5 Flash et retourne une analyse claire. Ciblage : pharmacies et EHPAD. PRD complet rédigé (10 sections).</p>
+      <div class="projet-stack">
+        <span class="stack-tag">n8n</span>
+        <span class="stack-tag">Gemini 2.5 Flash</span>
+        <span class="stack-tag">Airtable</span>
+        <span class="stack-tag">Softr</span>
+      </div>
+      <div class="projet-links">
+        <a href="https://my4081.softr.app" target="_blank" class="projet-link">🌐 Voir le projet</a>
+      </div>
+    </div>
+
+    <!-- ShopAssist -->
+    <div class="projet-card fade-in">
+      <div class="projet-icon">🛒</div>
+      <h3>ShopAssist AI</h3>
+      <p class="projet-desc">Assistant IA FAQ pour commerçants indépendants. Répond automatiquement aux questions clients via un workflow n8n connecté à Airtable. Interface Softr no-code.</p>
+      <div class="projet-stack">
+        <span class="stack-tag">n8n</span>
+        <span class="stack-tag">Groq/Llama3</span>
+        <span class="stack-tag">Airtable</span>
+        <span class="stack-tag">Softr</span>
+      </div>
+      <div class="projet-links">
+        <a href="https://lewis61799.softr.app" target="_blank" class="projet-link">🌐 Demo</a>
+      </div>
+    </div>
+
+    <!-- ChefLine -->
+    <div class="projet-card fade-in">
+      <div class="projet-icon">🎙️</div>
+      <h3>ChefLine</h3>
+      <p class="projet-desc">SaaS de transcription vocale de commandes pour restaurateurs. Capture audio → Whisper → Claude API → ticket imprimé en cuisine. PWA mobile déployée.</p>
+      <div class="projet-stack">
+        <span class="stack-tag">n8n</span>
+        <span class="stack-tag">Whisper</span>
+        <span class="stack-tag">Claude API</span>
+        <span class="stack-tag">Expo</span>
+        <span class="stack-tag">Vercel</span>
+      </div>
+      <div class="projet-links">
+        <a href="https://chefline-pwa.vercel.app" target="_blank" class="projet-link">🌐 Demo</a>
+      </div>
+    </div>
+
+    <!-- Crocodile -->
+    <div class="projet-card fade-in">
+      <div class="projet-icon">🐊</div>
+      <h3>Crocodile</h3>
+      <p class="projet-desc">PWA de tirage au sort multijoueur en temps réel. Sessions via codes à 5 caractères, avatars SVG, suspense animé. Supabase Realtime pour la synchronisation.</p>
+      <div class="projet-stack">
+        <span class="stack-tag">React</span>
+        <span class="stack-tag">Vite</span>
+        <span class="stack-tag">Supabase</span>
+        <span class="stack-tag">Vercel</span>
+      </div>
+      <div class="projet-links">
+        <a href="https://crocodile-ochre.vercel.app" target="_blank" class="projet-link">🌐 Jouer</a>
+      </div>
+    </div>
+
+    <!-- BabyLog -->
+    <div class="projet-card fade-in">
+      <div class="projet-icon">👶</div>
+      <h3>BabyLog</h3>
+      <p class="projet-desc">Application parentale avec chatbot IA (Claude Sonnet), calendrier vaccinal français et gestion multi-bébés. Interface rose/beige avec Bootstrap 5 et Stimulus.</p>
+      <div class="projet-stack">
+        <span class="stack-tag">Rails 8</span>
+        <span class="stack-tag">RubyLLM</span>
+        <span class="stack-tag">Anthropic API</span>
+        <span class="stack-tag">Stimulus</span>
+      </div>
+      <div class="projet-links">
+        <a href="https://github.com/Sarah-ABILA/BabyLog" target="_blank" class="projet-link">GitHub</a>
+      </div>
+    </div>
+
+    <!-- CareerClarity -->
+    <div class="projet-card fade-in">
+      <div class="projet-icon">🎯</div>
+      <h3>CareerClarity AI</h3>
+      <p class="projet-desc">Coach de carrière IA pour salariés et freelances. Développé en équipe (3 devs), méthode Agile avec daily, retros et sprints. Pipeline RAG avec Cohere + Supabase pgvector.</p>
+      <div class="projet-stack">
+        <span class="stack-tag">Rails</span>
+        <span class="stack-tag">RubyLLM</span>
+        <span class="stack-tag">RAG</span>
+        <span class="stack-tag">Turbo</span>
+      </div>
+      <div class="projet-links">
+        <a href="https://github.com/aliamzil/CareerClarityAI" target="_blank" class="projet-link">GitHub</a>
+      </div>
+    </div>
+
+    <!-- LastRoom -->
+    <div class="projet-card fade-in">
+      <div class="projet-icon">🏨</div>
+      <h3>LastRoom</h3>
+      <p class="projet-desc">Plateforme de réservation hôtelière avec offres flash (−70%). Projet d'examen RNCP. Sécurisation Brakeman, optimisation N+1 Bullet, monitoring Hotjar.</p>
+      <div class="projet-stack">
+        <span class="stack-tag">Rails 8</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">Devise</span>
+        <span class="stack-tag">Scalingo</span>
+      </div>
+      <div class="projet-links">
+        <span style="font-size:0.8rem;color:var(--muted);padding:0.4rem 0.8rem;">Projet d'examen RNCP</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section class="competences" id="competences">
+  <span class="section-label">Stack technique</span>
+  <h2>Compétences</h2>
+  <div class="comp-grid">
+    <div class="comp-card fade-in">
+      <div class="comp-icon">🔧</div>
+      <h4>Backend</h4>
+      <div class="comp-items">
+        <span class="comp-item">Ruby on Rails</span>
+        <span class="comp-item">PostgreSQL</span>
+        <span class="comp-item">Python</span>
+        <span class="comp-item">REST APIs</span>
+        <span class="comp-item">Webhooks</span>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-icon">🎨</div>
+      <h4>Frontend</h4>
+      <div class="comp-items">
+        <span class="comp-item">React</span>
+        <span class="comp-item">HTML5/CSS3</span>
+        <span class="comp-item">JavaScript</span>
+        <span class="comp-item">Bootstrap 5</span>
+        <span class="comp-item">Stimulus</span>
+        <span class="comp-item">Turbo</span>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-icon">🤖</div>
+      <h4>IA & LLM</h4>
+      <div class="comp-items">
+        <span class="comp-item">Claude API</span>
+        <span class="comp-item">Gemini</span>
+        <span class="comp-item">RubyLLM</span>
+        <span class="comp-item">RAG pipelines</span>
+        <span class="comp-item">Cohere</span>
+        <span class="comp-item">Supabase pgvector</span>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-icon">⚡</div>
+      <h4>No-Code & Automatisation</h4>
+      <div class="comp-items">
+        <span class="comp-item">n8n</span>
+        <span class="comp-item">Airtable</span>
+        <span class="comp-item">Softr</span>
+        <span class="comp-item">Zapier</span>
+        <span class="comp-item">Make</span>
+        <span class="comp-item">Typeform</span>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-icon">🚀</div>
+      <h4>DevOps & Déploiement</h4>
+      <div class="comp-items">
+        <span class="comp-item">Git/GitHub</span>
+        <span class="comp-item">Vercel</span>
+        <span class="comp-item">Scalingo</span>
+        <span class="comp-item">Heroku</span>
+        <span class="comp-item">Supabase</span>
+      </div>
+    </div>
+    <div class="comp-card fade-in">
+      <div class="comp-icon">📋</div>
+      <h4>Méthodes</h4>
+      <div class="comp-items">
+        <span class="comp-item">Agile/Scrum</span>
+        <span class="comp-item">MVC</span>
+        <span class="comp-item">Rédaction PRD</span>
+        <span class="comp-item">User Stories</span>
+        <span class="comp-item">GitHub Projects</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPÉRIENCES -->
+<section class="experiences" id="experiences">
+  <span class="section-label">Parcours</span>
+  <h2>30 ans d'expérience<br>en gestion d'entreprise</h2>
+  <div class="exp-list">
+    <div class="exp-item fade-in">
+      <div class="exp-date">2026</div>
+      <div class="exp-content">
+        <h4>IA Product Builder & Développeuse Full-Stack</h4>
+        <div class="company">Le Wagon · Marseille — RNCP Niveau 6</div>
+        <p>Formation intensive full-stack (Ruby, Rails, JS, HTML/CSS) + spécialisation AI Product Builder (n8n, RAG, LLM APIs). 7 projets déployés en production.</p>
+      </div>
+    </div>
+    <div class="exp-item fade-in">
+      <div class="exp-date">2019–2026</div>
+      <div class="exp-content">
+        <h4>Responsable Primeur & Gastronomie</h4>
+        <div class="company">La Ferme de l'Almanarre · Hyères</div>
+        <p>Gestion achats, relation fournisseurs et clients. Développement du rayon gastronomie et charcuterie fine.</p>
+      </div>
+    </div>
+    <div class="exp-item fade-in">
+      <div class="exp-date">2008–2019</div>
+      <div class="exp-content">
+        <h4>Dirigeante — Le Snack</h4>
+        <div class="company">La Londe-les-Maures</div>
+        <p>Création et gestion d'un restaurant. Comptabilité, management (5 employés), achats, production, service client.</p>
+      </div>
+    </div>
+    <div class="exp-item fade-in">
+      <div class="exp-date">2001–2006</div>
+      <div class="exp-content">
+        <h4>Conseillère en Prévoyance</h4>
+        <div class="company">GAN Prévoyance · La Valette-du-Var</div>
+        <p>Conseil et vente de contrats assurance-vie et prévoyance. Gestion d'un portefeuille clients, prospection terrain.</p>
+      </div>
+    </div>
+    <div class="exp-item fade-in">
+      <div class="exp-date">1993–2001</div>
+      <div class="exp-content">
+        <h4>Responsable de Rayon</h4>
+        <div class="company">Casino Grande Distribution · La Londe</div>
+        <p>Management d'équipe, commandes, inventaires. Gestion du rayon charcuterie/fromage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <span class="section-label">Me contacter</span>
+  <h2>Parlons de votre projet</h2>
+  <p class="contact-sub">Disponible immédiatement en full remote ou dans le Var (83). Ouverte à tous types de missions : développement, automatisation IA, no-code.</p>
+  <div class="contact-links">
+    <a href="mailto:abila.sarah83@gmail.com" class="btn btn-primary">✉ abila.sarah83@gmail.com</a>
+    <a href="https://linkedin.com/in/sarah-abila" target="_blank" class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.3);">LinkedIn</a>
+    <a href="https://github.com/Sarah-ABILA" target="_blank" class="btn btn-outline" style="color:white;border-color:rgba(255,255,255,0.3);">GitHub</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Sarah Abila · Hyères (83) · Disponible full remote · Certifiée RNCP Niveau 6</p>
+</footer>
+
+<script>
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
